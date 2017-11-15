@@ -37,7 +37,7 @@ class Data:
         tradeTable = pd.read_csv(self.pathTrade)
         index_login = loginTable.set_index("id")
         index_trade = tradeTable.set_index("id")
-        result = pd.concat([index_login,index_trade],axis=1,join="inner")
+        result = pd.concat([index_login,index_trade],axis=1,join="outer")
         return result
 
     def loadData(self):
