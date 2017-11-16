@@ -10,9 +10,7 @@
 @time: 2017/11/14 16:50 
 """
 import pandas as pd
-import sys
-sys.path.append("D:/work/code/zhangyingwei/python/python-demos/jd/code")
-import utils
+import jd_utils as utils
 import numpy
 import time
 import datetime
