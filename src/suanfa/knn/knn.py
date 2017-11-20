@@ -22,11 +22,17 @@ class Knn:
         self.do_study()
 
     def predict(self,x):
-        data_mat = np.mat(x)
+        data_arr = np.array(x)
         items = self.x
-        x_mat = np.mat(items)
-        ji = x_mat * data_mat
-        print(ji)
+        x_arr = np.array(items)
+        # 先求平方差 a方-b方
+        result = x_arr*x_arr - data_arr*data_arr
+        # 求和 
+        result = np.sum(result,axis=1)
+        result = np.abs(result)
+        result = result**0.5
+        index_sort = np.argsort(result)
+        return self.y[index_sort[0]]
 
     def say(self):
         print("hello sb",self.dic)

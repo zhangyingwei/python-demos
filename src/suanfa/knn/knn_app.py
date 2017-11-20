@@ -10,7 +10,7 @@
 @time: 2017/11/17 17:00 
 """
 
-import knn
+import suanfa.knn.knn as knn
 
 x = [
     [1,2,3],
@@ -19,9 +19,10 @@ x = [
     [-1,0,1]
 ]
 y = ['a','b','c','a']
-_x = [1,2,3]
+_x = [-2,1,0]
 
 model = knn.Knn()
 model.fit(x,y)
 model.say()
-model.predict(_x)
+min = model.predict(_x)
+print(min)
