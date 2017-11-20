@@ -13,15 +13,18 @@ import os
 import pickle
 import jd_utils as utils
 import pandas
-# import main_jd_app as app
 
 def load_test_data():
     login_table = pandas.read_csv(os.path.join(utils.env.data_path,"t_login_test.csv"))
     trade_table = pandas.read_csv(os.path.join(utils.env.data_path,"t_trade_test.csv"))
-
-    # result_table = app.formate_tables(login_table,trade_table)
-    # return result_table
-    pass
+    print(login_table[:2])
+    print(trade_table[:2])
+    # result_table = utils.formate_tables(login_table=login_table,trade_table=trade_table)
+    result_table = trade_table.join(login_table, on="id", how="left", lsuffix="_")
+    print(result_table[:2])
+    # for line in result_table.values:
+    #     print(line)
+    return result_table
 
 
 
@@ -33,4 +36,6 @@ def load_model():
 
 if __name__ == '__main__':
     result_table = load_test_data()
-    print(result_table)
+    # model = load_model()
+    # res = model.predict(result_table.values)
+    # print(len(res))

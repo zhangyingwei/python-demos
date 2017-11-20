@@ -80,10 +80,12 @@ def formate_tables(login_table,trade_table):
     # time_
     time_ = result_table.pop("time_")
     result_table.insert(0,"jytime",time_)
+
     # is_scan
     is_scan = result_table.pop("is_scan")
     is_scan = formate_is_scan(is_scan)
     result_table.insert(0,"is_scan",is_scan)
+
     # is_sec
     is_sec = result_table.pop("is_sec")
     is_sec = formate_is_scan(is_sec)

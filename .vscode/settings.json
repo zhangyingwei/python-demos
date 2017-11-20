@@ -1,0 +1,7 @@
+{
+    "python.pythonPath": "D:\\dev\\py3-env\\Scripts\\python",
+    "python.autoComplete.extraPaths": [
+        "D:\\dev\\py3-env\\Lib\\site-packages",
+        "D:\\dev\\py3-env\\Lib"
+    ]
+}

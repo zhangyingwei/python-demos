@@ -30,7 +30,7 @@ result_table,labels_table = utils.read_data(name="-trade")
 def data_fit():
     model = svm.SVC()
     print("fit...")
-    model.fit(result_table,labels_table)
+    model.fit(result_table[:1000],labels_table[:1000])
     with open(os.path.join(utils.env.data_path,"model.svm"),"wb") as model_file:
         pickle.dump(model,model_file)
 
