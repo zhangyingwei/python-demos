@@ -27,7 +27,7 @@ class Knn:
         x_arr = np.array(items)
         # 先求平方差 a方-b方
         result = x_arr*x_arr - data_arr*data_arr
-        # 求和 
+        # 求和
         result = np.sum(result,axis=1)
         result = np.abs(result)
         result = result**0.5
