@@ -10,12 +10,11 @@
 @time: 2017/11/21 14:09 
 """
 import os
-
 from PIL import Image,ImageDraw
 import cv2
 import numpy as np
 
-base_path = "D:/work/code/zhangyingwei/python/python-demos"
+base_path = "/Users/zhangyw/PycharmProjects/python-demos"
 xml_path = os.path.join(base_path,"input/demos/haarcascades","haarcascade_frontalface_default.xml")
 image_path = os.path.join(base_path,"input/demos/images")
 
