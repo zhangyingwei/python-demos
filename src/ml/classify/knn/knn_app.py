@@ -10,9 +10,11 @@
 @time: 2017/11/17 17:00 
 """
 
-import suanfa.knn.knn as knn
 from sklearn import datasets
 from sklearn.cross_validation import train_test_split
+
+import ml.classify.knn.knn as knn
+
 
 def test1():
     x = [
