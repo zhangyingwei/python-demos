@@ -28,7 +28,6 @@ def test1():
 
     model = knn.Knn()
     model.fit(x,y)
-    model.say()
     min = model.predict(_x)
     print(min)
 
@@ -50,6 +49,8 @@ def test2():
             succ += 1
         else:
             err += 1
+            # print("实际上是{0},识别为{1}".format(tt,res))
     print(succ/(succ+err))
 
-test2()
+for i in range(20):
+    test2()

@@ -9,6 +9,7 @@
 @file: knn.py 
 @time: 2017/11/17 16:38 
 """
+from collections import Counter
 import numpy as np
 
 
@@ -19,31 +20,27 @@ class Knn:
     def fit(self,x,y):
         self.x = x
         self.y = y
-        self.do_study()
+        # self.do_study()
 
-    def predict(self,x):
+    def predict(self,x,k = 19):
         data_arr = np.array(x)
         items = self.x
         x_arr = np.array(items)
-        # 先求平方差 a方-b方
-        result = x_arr*x_arr - data_arr*data_arr
-        # 求和
-        result = np.sum(result,axis=1)
-        result = np.abs(result)
-        result = result**0.5
-        index_sort = np.argsort(result)
-        return self.y[index_sort[0]]
-
-    def say(self):
-        print("hello sb",self.dic)
-
-    def do_study(self):
-        dic = {}
-        for index,item in enumerate(self.x):
-            key = self.y[index]
-            dic[str(item)] = key
-        self.dic = dic
-
+        data_arr = np.tile(data_arr, (x_arr.shape[0], 1))
+        diff_arr = x_arr - data_arr # ai-bi
+        sqdiff = diff_arr**2 # (ai-bi)平方
+        sumdiff = np.sum(sqdiff,axis=1) # 平方和
+        result = sumdiff**0.5 # 开方
+        # 获取排序后的数据 index(索引) 列表
+        args = np.argsort(result)
+        # 以下为获取距离最近的前 K 个数据并求出类型最多的数据类型
+        values = []
+        for index in range(k):
+            values.append(self.y[args[index]])
+        values_count = Counter(values)
+        arg_values = np.argsort(list(values_count.values()))
+        # print("values{0},chrose{1}".format(str(values),list(values_count.keys())[arg_values[-1]]))
+        return list(values_count.keys())[arg_values[-1]]
 
 def hello():
     print("hello hah")
