@@ -13,10 +13,13 @@
 from sklearn import datasets
 from sklearn.cross_validation import train_test_split
 import ml.classify.knn.knn as knn
+from PIL import Image
+import numpy as np
 
 digits = datasets.load_digits()
 datas = digits.data
 targets = digits.target
+target_name = digits.target_names
 
 x_train,x_test,y_train,y_test = train_test_split(datas,targets,test_size=0.4)
 
@@ -30,3 +33,16 @@ for index,item in enumerate(x_test):
         err+=1
         print("实际是{0},识别结果是{1}".format(y_test[index],res))
 print(1-err/len(x_test))
+
+def load_img(num = 1):
+    img_path = "/Users/zhangyw/PycharmProjects/python-demos/input/ml/classify/knn/{0}.jpg".format(num)
+    img = Image.open(img_path)
+    img = img.convert("L")
+    img = img.resize((8,8))
+    img_arr = np.asarray(img)
+    return np.abs(img_arr.flatten()-255)
+
+for i in range(10):
+    img = load_img(num=i)
+    res = model.predict(img)
+    print("image is {0},and predice is {1}".format(i,res))
