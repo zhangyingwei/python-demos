@@ -28,6 +28,7 @@ model.fit(x_train,y_train)
 
 err = 0
 for index,item in enumerate(x_test):
+    print(item)
     res = model.predict(item)
     if y_test[index] != res:
         err+=1
@@ -35,14 +36,18 @@ for index,item in enumerate(x_test):
 print(1-err/len(x_test))
 
 def load_img(num = 1):
-    img_path = "/Users/zhangyw/PycharmProjects/python-demos/input/ml/classify/knn/{0}.jpg".format(num)
+    img_path = "D:/work/code/zhangyingwei/python/python-demos/input/ml/classify/knn/{0}.jpg".format(num)
+    # print(img_path)
     img = Image.open(img_path)
     img = img.convert("L")
     img = img.resize((8,8))
     img_arr = np.asarray(img)
-    return np.abs(img_arr.flatten()-255)
+    # print(img_arr)
+    img_arr = img_arr.flatten()
+    return np.abs(img_arr-np.tile([255],len(img_arr)))
 
 for i in range(10):
-    img = load_img(num=i)
+    img = load_img(num=i)**0.5
+    # print(img)
     res = model.predict(img)
-    print("image is {0},and predice is {1}".format(i,res))
+    print("image is {0},and result is {1}".format(i,res))
