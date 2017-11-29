@@ -1,36 +1,37 @@
-#!/usr/bin/env python  
-# encoding: utf-8  
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# Author: PytLab <shaozhengjiang@gmail.com>
+# Date: 2017-07-07
 
-"""
-@version: v1.0 
-@author: zhangyw
-@site: http://blog.zhangyingwei.com
-@software: PyCharm 
-@file: decision_tree.py 
-@time: 2017/11/23 14:25 
-"""
+import copy
 import uuid
-from collections import defaultdict, namedtuple
-from numpy import log2
 import pickle
+from collections import defaultdict, namedtuple
+from math import log2
 
 
-class DecisionTree():
+class DecisionTreeClassifier(object):
+    ''' 使用ID3算法划分数据集的决策树分类器
+    '''
 
     @staticmethod
     def split_dataset(dataset, classes, feat_idx):
         ''' 根据某个特征以及特征值划分数据集
+
         :param dataset: 待划分的数据集, 有数据向量组成的列表.
         :param classes: 数据集对应的类型, 与数据集有相同的长度
         :param feat_idx: 特征在特征向量中的索引
+
         :param splited_dict: 保存分割后数据的字典 特征值: [子数据集, 子类型列表]
         '''
         splited_dict = {}
         for data_vect, cls in zip(dataset, classes):
-            data_vect = [a for a in data_vect]
+            data_vect = [a for a in data_vect] # 没啥用
             feat_val = data_vect[feat_idx]
             sub_dataset, sub_classes = splited_dict.setdefault(feat_val, [[], []])
-            sub_dataset.append(data_vect[: feat_idx] + data_vect[feat_idx+1: ])
+            copy_data_vect = data_vect[:]
+            del copy_data_vect[feat_idx]
+            sub_dataset.append(copy_data_vect)
             sub_classes.append(cls)
 
         return splited_dict
@@ -38,17 +39,19 @@ class DecisionTree():
     def get_shanno_entropy(self, values):
         ''' 根据给定列表中的值计算其Shanno Entropy
         '''
-        values = [a for a in values]
         uniq_vals = set(values)
+        values = [a for a in values]
         val_nums = {key: values.count(key) for key in uniq_vals}
-        probs = [v / len(values) for k, v in val_nums.items()]
-        entropy = sum([-prob * log2(prob) for prob in probs])
+        probs = [v/len(values) for k, v in val_nums.items()]
+        entropy = sum([-prob*log2(prob) for prob in probs])
         return entropy
 
     def choose_best_split_feature(self, dataset, classes):
         ''' 根据信息增益确定最好的划分数据的特征
+
         :param dataset: 待划分的数据集
         :param classes: 数据集对应的类型
+
         :return: 划分数据的增益最大的属性索引
         '''
         base_entropy = self.get_shanno_entropy(classes)
@@ -58,13 +61,14 @@ class DecisionTree():
         for i in range(feat_num):
             splited_dict = self.split_dataset(dataset, classes, i)
             new_entropy = sum([
-                len(sub_classes) / len(classes) * self.get_shanno_entropy(sub_classes)
+                len(sub_classes)/len(classes)*self.get_shanno_entropy(sub_classes)
                 for _, (_, sub_classes) in splited_dict.items()
             ])
             entropy_gains.append(base_entropy - new_entropy)
 
         return entropy_gains.index(max(entropy_gains))
 
+    @staticmethod
     def get_majority(classes):
         ''' 返回类型中占据大多数的类型
         '''
@@ -76,9 +80,11 @@ class DecisionTree():
 
     def create_tree(self, dataset, classes, feat_names):
         ''' 根据当前数据集递归创建决策树
+
         :param dataset: 数据集
         :param feat_names: 数据集中数据相应的特征名称
         :param classes: 数据集中数据相应的类型
+
         :param tree: 以字典形式返回决策树
         '''
         # 如果数据集中只有一种类型停止树分裂
@@ -176,8 +182,7 @@ class DecisionTree():
 
         feature = list(tree.keys())[0]
         value = data_vect[feat_names.index(feature)]
-        f_tree = tree[feature]
-        sub_tree = f_tree[value]
+        sub_tree = tree[feature][value]
 
         return self.classify(data_vect, feat_names, sub_tree)
 
@@ -197,3 +202,4 @@ class DecisionTree():
             tree = pickle.load(f)
             self.tree = tree
         return tree
+
