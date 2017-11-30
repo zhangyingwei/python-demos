@@ -10,9 +10,8 @@
 @time: 2017/11/30 10:35 
 """
 import os
-import subprocess
 
-base_path = "D:/work/code/zhangyingwei/python/python-demos/src"
+base_path = "D:/work/code/zhangyingwei/python/python-demos/src/datasets"
 data_dic = {
     "KDD99" : [
         "http://kdd.ics.uci.edu/databases/kddcup99/task.html",
@@ -101,14 +100,14 @@ def download(data_dict,names=[]):
             curr_path = base_path+"/"+"/".join(names)
             if not os.path.exists(curr_path):
                 os.makedirs(curr_path)
+            os.system("cd "+curr_path)
             for path in paths:
                 if type(path) is dict:
                     download(path,names)
                 else:
                     print(curr_path)
                     print("get {}-{}".format(name,path))
-                    subprocess.call(["cd",curr_path])
-                    subprocess.call("wget",path)
+                    os.system("wget "+path)
             names.remove(name)
 
 download(data_dic)
