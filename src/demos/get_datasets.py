@@ -106,7 +106,7 @@ def download(data_dict,names=[]):
                 else:
                     print(curr_path)
                     print("get {}-{}".format(name,path))
-                    os.system("cd " + curr_path + "& wget "+path)
+                    os.system("wget -P "+curr_path+" "+path)
             names.remove(name)
 
 download(data_dic)
