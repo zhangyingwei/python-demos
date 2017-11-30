@@ -100,14 +100,13 @@ def download(data_dict,names=[]):
             curr_path = base_path+"/"+"/".join(names)
             if not os.path.exists(curr_path):
                 os.makedirs(curr_path)
-            os.system("cd "+curr_path)
             for path in paths:
                 if type(path) is dict:
                     download(path,names)
                 else:
                     print(curr_path)
                     print("get {}-{}".format(name,path))
-                    os.system("wget "+path)
+                    os.system("cd " + curr_path + "& wget "+path)
             names.remove(name)
 
 download(data_dic)
