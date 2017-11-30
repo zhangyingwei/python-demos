@@ -11,7 +11,7 @@
 """
 import os
 
-base_path = "D:/work/code/zhangyingwei/python/python-demos/src/datasets"
+base_path = "/home/zhangyingwei/ml/download/datasets"
 data_dic = {
     "KDD99" : [
         "http://kdd.ics.uci.edu/databases/kddcup99/task.html",
@@ -91,12 +91,12 @@ data_dic = {
 
 def download(data_dict,names=[]):
     for item in data_dict.items():
-        if type(item) is dict:
-            download(item,names)
+        name = item[0]
+        paths = item[1]
+        names.append(name)
+        if type(paths) is dict:
+            download(paths,names)
         else:
-            name = item[0]
-            paths = item[1]
-            names.append(name)
             curr_path = base_path+"/"+"/".join(names)
             if not os.path.exists(curr_path):
                 os.makedirs(curr_path)
