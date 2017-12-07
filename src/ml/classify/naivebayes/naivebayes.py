@@ -42,6 +42,7 @@ class NaiveBayes:
         num1 = np.ones(len(self.__words))
         count0 = 2.0
         count1 = 2.0
+
         for index,item in enumerate(vec_set):
             if targets[index] == 0:
                 num0+=item
